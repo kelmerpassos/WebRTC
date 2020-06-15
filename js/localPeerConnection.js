@@ -23,12 +23,8 @@ function log(text) {
 function successCallback(stream) {
     log("Received local stream");
     // Associate the local video element with the retrieved stream
-    if (window.URL) {
-        localVideo.src = URL.createObjectURL(stream);
-    } else {
-        localVideo.src = stream;
-    }
-    localStream = stream;
+    
+    localStream.srcObject = stream;
     // We can now enable the Call button
     callButton.disabled = false;
 }
@@ -37,21 +33,21 @@ function successCallback(stream) {
 function start() {
     log("Requesting local stream");
     constraints = {
-        audio: true,
-        video: true
+        audio: true, 
+        video: true  
     }
     // First of all, disable the Start button on the page
     startButton.disabled = true;
     // Get ready to deal with different browser vendors...
     navigator.mediaDevices.getUserMedia(constraints)
-        .then(function (stream) {
-            /* use the stream */
-            successCallback(stream);
-        })
-        .catch(function (error) {
-            /* handle the error */
-            log("navigator.getUserMedia error: ", error);
-        });
+    .then(function(stream) {
+        /* use the stream */
+        successCallback(stream);
+    })
+    .catch(function(error) {
+        /* handle the error */
+        log("navigator.getUserMedia error: ", error);
+    });
 }
 // Function associated with clicking on the Call button
 // This is enabled upon successful completion of the Start button handler
