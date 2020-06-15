@@ -24,7 +24,8 @@ function successCallback(stream) {
     log("Received local stream");
     // Associate the local video element with the retrieved stream
     
-    localStream.srcObject = stream;
+    localVideo.srcObject = stream;
+    localStream = stream;
     // We can now enable the Call button
     callButton.disabled = false;
 }
@@ -146,13 +147,7 @@ function hangup() {
 // Handler to be called as soon as the remote stream becomes available
 function gotRemoteStream(event) {
     // Associate the remote video element with the retrieved stream
-    if (window.URL) {
-        // Chrome
-        remoteVideo.src = window.URL.createObjectURL(event.stream);
-    } else {
-        // Firefox
-        remoteVideo.src = event.stream;
-    }
+    remoteVideo.srcObject = event.stream;
     log("Received remote stream");
 }
 // Handler to be called whenever a new local ICE candidate becomes available
